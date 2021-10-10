@@ -21,13 +21,13 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-emailGroupSchema.virtual("event", {
+userSchema.virtual("event", {
   ref: "Event",
   localField: "_id", //Find in Model, where localField
   foreignField: "registeredUsers", // is equal to femailGroupSchema
 });
 
-emailGroupSchema.set("toObject", { virtuals: true });
-emailGroupSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
 
 module.exports = new mongoose.model("User", userSchema);

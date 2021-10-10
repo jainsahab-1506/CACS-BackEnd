@@ -1,8 +1,8 @@
-const User = require("./../../models/user");
-const Admin = require("./../../models/admin");
+const Event = require("./../../../Events/models/model");
+const Admin = require("./../../../User/model");
 const jwt = require("jsonwebtoken");
 
-const getUserById = (req, res) => {
+const deleteEvent = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const jwtSecret = process.env.JWT_SECRET;
@@ -15,9 +15,9 @@ const getUserById = (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-            const user = await User.findById(userId);
-            if (user) return res.status(200).json({ user });
-            else return res.status(200).json({ message: "No such user" });
+          Event.deleteOne({ id: req.eventId }).then(() => {
+            return res.status(200).json({ message: "Event removed." });
+          });
         } else {
           return res.status(500).json({ error: "No such admin." });
         }
@@ -28,4 +28,4 @@ const getUserById = (req, res) => {
   }
 };
 
-module.exports = getUserById;
+module.exports = deleteEvent;

@@ -1,8 +1,8 @@
-const User = require("./../../models/user");
-const Admin = require("./../../models/admin");
+const Event = require("./../../../Events/models/model");
+const Admin = require("./../../../User/model");
 const jwt = require("jsonwebtoken");
 
-const createUser = (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const jwtSecret = process.env.JWT_SECRET;
@@ -10,13 +10,14 @@ const createUser = (req, res) => {
       if (err) {
         return res.status(500).json({ error: err });
       }
-      Admin.findOne({ _id: decoded.userId }, (err, admin) => {
+      Admin.findOne({ _id: decoded.userId }, async (err, admin) => {
         if (err) {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-            const user = await User( req.userData );
-            return res.status(202).json({ message: "User added.", user });
+          User.deleteOne({ id: req.userId }).then(() => {
+            return res.status(200).json({ message: "User removed." });
+          });
         } else {
           return res.status(500).json({ error: "No such admin." });
         }
@@ -27,4 +28,4 @@ const createUser = (req, res) => {
   }
 };
 
-module.exports = createUser;
+module.exports = deleteUser;

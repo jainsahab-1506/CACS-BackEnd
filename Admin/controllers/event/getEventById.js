@@ -1,8 +1,8 @@
-const Event = require("./../../models/event");
-const Admin = require("./../../models/admin");
+const Event = require("./../../../Events/models/model");
+const Admin = require("./../../../User/model");
 const jwt = require("jsonwebtoken");
 
-const createEvent = (req, res) => {
+const getEventById = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const jwtSecret = process.env.JWT_SECRET;
@@ -10,13 +10,14 @@ const createEvent = (req, res) => {
       if (err) {
         return res.status(500).json({ error: err });
       }
-      Admin.findOne({ _id: decoded.userId }, (err, admin) => {
+      Admin.findOne({ _id: decoded.userId }, async (err, admin) => {
         if (err) {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-            const event = await Event( req.eventData );
-            return res.status(202).json({ message: "Event added.", event });
+          const event = await Event.findById(req.body.eventId);
+          if (event) return res.status(200).json({ event });
+          else return res.status(200).json({ message: "No such event." });
         } else {
           return res.status(500).json({ error: "No such admin." });
         }
@@ -27,4 +28,4 @@ const createEvent = (req, res) => {
   }
 };
 
-module.exports = createEvent;
+module.exports = getEventById;
