@@ -15,7 +15,7 @@ const updateUser = async (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-          const user = await User.findOneAndUpdate(
+          const user = await Admin.findOneAndUpdate(
             { id: req.body.userId },
             req.body.userData
           );

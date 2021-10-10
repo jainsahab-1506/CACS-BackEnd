@@ -18,7 +18,7 @@ const registerevent = async (req, res) => {
       });
     }
     const jwtSecret = process.env.JWT_SECRET;
-    jwt.verify(token, jwtSecret, async (err, decoded) => {
+    jwt.verify(tokenData, jwtSecret, async (err, decoded) => {
       if (err) {
         return res.status(500).json({ error: err });
       }
@@ -28,17 +28,23 @@ const registerevent = async (req, res) => {
       }
       const id = req.body.eventid;
       const events = await Event.find({ _id: id });
+      console.log(events);
       if (
-        events.registeredUsers.includes(user._id) &&
-        user.registeredEvents.includes(id)
+        events.forEach(
+          (event) => {
+            if (event.registeredUsers.includes(user._id))
+              return res.status(500).json({ error: "Already Registered" });
+          }
+          // user.registeredEvents.includes(id)
+        )
       ) {
         return res.status(500).json({ error: "Already Registered" });
       }
 
-      const updatedevent = await Event.findbyIdAndUpdate(id, {
+      const updatedevent = await Event.findByIdAndUpdate(id, {
         $push: { registeredUsers: user._id },
       });
-      const updateduser = await User.findbyIdAndUpdate(user._id, {
+      const updateduser = await User.findByIdAndUpdate(user._id, {
         $push: { registeredEvents: updatedevent._id },
       }).populate("registeredEvents");
 

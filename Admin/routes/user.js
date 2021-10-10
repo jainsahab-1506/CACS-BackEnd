@@ -9,9 +9,9 @@ const loginUser = require("./../../User/controllers/login");
 
 router.post("/create", createUser);
 router.post("/login", loginUser);
-router.get("/", getAllUsers);
+router.get("/all", getAllUsers);
 router.get("/id", getUserById);
-router.put("/create", updateUser);
-router.delete("/create", deleteUser);
+router.put("/update", updateUser);
+router.delete("/delete", deleteUser);
 
 module.exports = router;

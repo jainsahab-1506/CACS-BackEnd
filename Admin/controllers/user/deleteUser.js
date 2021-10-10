@@ -15,7 +15,7 @@ const deleteUser = async (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-          User.deleteOne({ id: req.userId }).then(() => {
+          Admin.deleteOne({ id: req.userId }).then(() => {
             return res.status(200).json({ message: "User removed." });
           });
         } else {

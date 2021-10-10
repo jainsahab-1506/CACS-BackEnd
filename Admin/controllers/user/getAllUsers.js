@@ -15,7 +15,7 @@ const getAllUsers = async (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-          const users = await User.find({});
+          const users = await Admin.find({});
           return res.status(200).json({ users });
         } else {
           return res.status(500).json({ error: "No such admin." });

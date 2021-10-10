@@ -15,7 +15,7 @@ const createUser = async (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-          const user = await User(req.userData);
+          const user = await Admin.create(req.body);
           return res.status(202).json({ message: "User added.", user });
         } else {
           return res.status(500).json({ error: "No such admin." });

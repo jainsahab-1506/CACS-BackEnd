@@ -18,7 +18,7 @@ const getevents = async (req, res) => {
       });
     }
     const jwtSecret = process.env.JWT_SECRET;
-    jwt.verify(token, jwtSecret, async (err, decoded) => {
+    jwt.verify(tokenData, jwtSecret, async (err, decoded) => {
       if (err) {
         return res.status(500).json({ error: err });
       }
@@ -26,8 +26,9 @@ const getevents = async (req, res) => {
       if (!user) {
         return res.status(500).json({ error: "Unauthorised Request" });
       }
-      const events = await Event.find({}).populate("registeredUsers");
-      events.sort({ startDate: 1 });
+      const events = await Event.find({})
+        .sort({ startDate: 1 })
+        .populate("registeredUsers");
 
       return res.status(200).json({ success: "Data Found", events });
     });
