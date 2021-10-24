@@ -29,9 +29,10 @@ const registerevent = async (req, res) => {
       const id = req.body.eventid;
       const event = await Event.findOne({ _id: id });
 
+      if (!event) return res.status(400).json({ error: "No such event" });
+
       if (event.registeredUsers.includes(user._id))
-        return res.status(500).json({ error: "Already Registered" });
-      // user.registeredEvents.includes(id)
+        return res.status(200).json({ error: "Already Registered" });
 
       const updatedevent = await Event.findByIdAndUpdate(id, {
         $push: { registeredUsers: user._id },
