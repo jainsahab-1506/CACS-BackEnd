@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 
 const getAllEvents = async (req, res) => {
   try {
+    const events = await Event.find({});
+    return res.status(200).json({ events });
     const token = req.headers.authorization.split(" ")[1];
     const jwtSecret = process.env.JWT_SECRET;
     jwt.verify(token, jwtSecret, (err, decoded) => {
@@ -15,8 +17,6 @@ const getAllEvents = async (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-          const events = await Event.find({});
-          return res.status(200).json({ events });
         } else {
           return res.status(500).json({ error: "No such admin." });
         }

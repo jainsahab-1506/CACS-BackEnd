@@ -27,19 +27,11 @@ const registerevent = async (req, res) => {
         return res.status(500).json({ error: "Unauthorised Request" });
       }
       const id = req.body.eventid;
-      const events = await Event.find({ _id: id });
-      console.log(events);
-      if (
-        events.forEach(
-          (event) => {
-            if (event.registeredUsers.includes(user._id))
-              return res.status(500).json({ error: "Already Registered" });
-          }
-          // user.registeredEvents.includes(id)
-        )
-      ) {
+      const event = await Event.findOne({ _id: id });
+
+      if (event.registeredUsers.includes(user._id))
         return res.status(500).json({ error: "Already Registered" });
-      }
+      // user.registeredEvents.includes(id)
 
       const updatedevent = await Event.findByIdAndUpdate(id, {
         $push: { registeredUsers: user._id },
@@ -47,7 +39,7 @@ const registerevent = async (req, res) => {
       const updateduser = await User.findByIdAndUpdate(user._id, {
         $push: { registeredEvents: updatedevent._id },
       }).populate("registeredEvents");
-
+      console.log(updateduser);
       return res.status(200).json({ success: "Event Registered", updateduser });
     });
   } catch (error) {
