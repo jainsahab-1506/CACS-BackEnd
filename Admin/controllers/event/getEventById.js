@@ -15,7 +15,7 @@ const getEventById = async (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-          const event = await Event.findById(req.body.eventId);
+          const event = await Event.findById(req.params.id);
           if (event) return res.status(200).json({ event });
           else return res.status(200).json({ message: "No such event." });
         } else {

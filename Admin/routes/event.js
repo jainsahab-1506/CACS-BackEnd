@@ -12,7 +12,7 @@ router.post("/create", createEvent);
 router.post("/register", registerEvent);
 router.get("/all", getAllEvents);
 router.get("/upcoming", getEvent);
-router.get("/id", getEventById);
+router.get("/id/:id", getEventById);
 router.put("/update", updateEvent);
 router.delete("/delete", deleteEvent);
 
