@@ -9,28 +9,25 @@ const login = async (req, res) => {
     let email = req.body.email;
     email = email.toLowerCase();
     const userData = {
+      name: req.body.name,
       email: email,
+      phone: req.body.phone,
       password: req.body.password,
     };
-    console.log(userData);
-    console.log(Admin);
-    const user = await Admin.find({});
+    console.log("User Data: ", userData);
+    const user = await Admin.find({ email: email });
     console.log(user);
     if (!user) {
       return res.status(400).json({ error: "Wrong Credentials" });
     }
     const token = jwt.sign(
       {
-        userId: admin._id,
+        userId: user._id,
       },
       process.env.SECRET
     );
 
-    var userdata = {
-      token: token,
-    };
-    console.log(userdata);
-    return res.status(200).json({ success: "Data Found", userdata });
+    return res.status(200).json({ success: "Data Found", token });
   } catch (error) {
     return res.status(400).json({ error: error });
   }

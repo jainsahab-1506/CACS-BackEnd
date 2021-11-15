@@ -1,5 +1,5 @@
 const Event = require("./../../../Events/models/model");
-const User = require("./../../../User/model");
+const User = require("./../../../User/adminmodel");
 const jwt = require("jsonwebtoken");
 
 const getEventById = async (req, res) => {
