@@ -23,12 +23,23 @@ const userSchema = new mongoose.Schema({
       ref: "Event",
     },
   ],
+  attendedEvents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Event",
+    },
+  ],
 });
 
 userSchema.virtual("event", {
   ref: "Event",
-  localField: "_id", //Find in Model, where localField
+  localField: "registeredEvents", //Find in Model, where localField
   foreignField: "registeredUsers", // is equal to femailGroupSchema
+});
+userSchema.virtual("event", {
+  ref: "Event",
+  localField: "attendedEvents", //Find in Model, where localField
+  foreignField: "attendedUsers", // is equal to femailGroupSchema
 });
 
 userSchema.set("toObject", { virtuals: true });
