@@ -13,11 +13,15 @@ const getAllEvents = async (req, res) => {
       if (err) {
         return res.status(500).json({ error: err });
       }
+      console.log(token);
+      console.log(decoded.userId);
       Admin.findOne({ _id: decoded.userId }, async (err, admin) => {
         if (err) {
           return res.status(500).json({ error: err });
         }
         if (admin) {
+          console.log(events);
+          return res.status(200).json({ events });
         } else {
           return res.status(500).json({ error: "No such admin." });
         }
