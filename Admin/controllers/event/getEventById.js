@@ -1,5 +1,6 @@
 const Event = require("./../../../Events/models/model");
 const User = require("./../../../User/adminmodel");
+const Admin = require("./../../../User/model");
 const jwt = require("jsonwebtoken");
 
 const getEventById = async (req, res) => {
@@ -10,19 +11,32 @@ const getEventById = async (req, res) => {
       if (err) {
         return res.status(500).json({ error: err });
       }
+      if (req.headers.type) {
+        Admin.findOne({ _id: decoded.userId }, async (err, admin) => {
+          if (err) {
+            return res.status(500).json({ error: err });
+          }
+          if (admin) {
+            const event = await Event.findById(req.params.id);
 
-      User.findOne({ _id: decoded.userId }, async (err, admin) => {
-        if (err) {
-          return res.status(500).json({ error: err });
-        }
-        if (admin) {
-          const event = await Event.findById(req.params.id)
-            .populate("registeredUsers")
-            .populate("attendedUsers");
-          if (event) return res.status(200).json({ eventData: event });
-          else return res.status(200).json({ message: "No such event." });
-        }
-      });
+            if (event) return res.status(200).json({ eventdata: event });
+            else return res.status(200).json({ message: "No such event." });
+          }
+        });
+      } else {
+        User.findOne({ _id: decoded.userId }, async (err, admin) => {
+          if (err) {
+            return res.status(500).json({ error: err });
+          }
+          if (admin) {
+            const event = await Event.findById(req.params.id)
+              .populate("registeredUsers")
+              .populate("attendedUsers");
+            if (event) return res.status(200).json({ eventdata: event });
+            else return res.status(200).json({ message: "No such event." });
+          }
+        });
+      }
     });
   } catch (error) {
     res.status(400).json({ error });
