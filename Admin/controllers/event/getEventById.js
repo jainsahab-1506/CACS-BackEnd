@@ -16,8 +16,10 @@ const getEventById = async (req, res) => {
           return res.status(500).json({ error: err });
         }
         if (admin) {
-          const event = await Event.findById(req.params.id);
-          if (event) return res.status(200).json({ event });
+          const event = await Event.findById(req.params.id)
+            .populate("registeredUsers")
+            .populate("attendedUsers");
+          if (event) return res.status(200).json({ eventData: event });
           else return res.status(200).json({ message: "No such event." });
         }
       });
