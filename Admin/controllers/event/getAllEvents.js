@@ -1,5 +1,5 @@
 const Event = require("./../../../Events/models/model");
-const Admin = require("./../../../User/adminmodel");
+const Admin = require("../adminmodel");
 // const Admin = require("./../../../User/model.js");
 const jwt = require("jsonwebtoken");
 

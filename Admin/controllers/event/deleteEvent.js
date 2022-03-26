@@ -1,5 +1,5 @@
 const Event = require("./../../../Events/models/model");
-const Admin = require("./../../../User/model");
+// const Admin = require("./../../../User/model");
 const jwt = require("jsonwebtoken");
 
 const deleteEvent = async (req, res) => {

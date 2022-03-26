@@ -18,14 +18,7 @@ const eventSchema = new mongoose.Schema({
   venue: { type: String, required: true },
   registeredUsers: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  attendedUsers: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: Object,
     },
   ],
 });

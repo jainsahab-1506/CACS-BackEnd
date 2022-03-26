@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
 const eventRouter = require("./Admin/routes/event");
-const userRouter = require("./Admin/routes/user");
-
+const adminLogin = require("./Admin/controllers/adminlogin");
 const app = express();
 app.use(express.json());
 
@@ -14,20 +13,27 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
-
 mongoose.connect(
   "mongodb+srv://admin-naman:" +
     process.env.CLUSTER_PASSWORD +
-    "@cluster0.3djy5.mongodb.net/CACSPortalDB?retryWrites=true&w=majority",
+    "@cluster0.3djy5.mongodb.net/CACSPortalTempDB?retryWrites=true&w=majority",
   { useNewUrlParser: true },
-  () => {
-    console.log("Database connected.");
+  (err) => {
+    console.log(err);
   }
 );
+// mongoose.connect(
+//   "mongodb+srv://admin-naman:" +
+//     process.env.CLUSTER_PASSWORD +
+//     "@cluster0.3djy5.mongodb.net/CACSPortalDB?retryWrites=true&w=majority",
+//   { useNewUrlParser: true },
+//   () => {
+//     console.log("Database connected.");
+//   }
+// );
 
 app.use("/events", eventRouter);
-app.use("/users", userRouter);
-
+app.post("/adminlogin", adminLogin);
 app.get("/", function (req, res) {
   res.send("Hello");
 });

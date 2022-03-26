@@ -7,11 +7,11 @@ const updateEvent = require("./../controllers/event/updateEvent");
 const getEventById = require("./../controllers/event/getEventById");
 const getEvent = require("./../../Events/controllers/getevent");
 const registerEvent = require("./../../Events/controllers/registerevent");
-const markattendance = require("./../../Events/controllers/mark attendance");
+const updateRank = require("./../controllers/event/updateRank");
 
 router.post("/create", createEvent);
 router.post("/register", registerEvent);
-router.put("/markattendance/:id?", markattendance);
+router.put("/updaterank/:id?", updateRank);
 router.get("/all", getAllEvents);
 router.get("/upcoming", getEvent);
 router.get("/:id?", getEventById);

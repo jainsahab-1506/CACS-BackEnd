@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Event = require("../models/model");
-const User = require("../../User/model");
+
 const jwt = require("jsonwebtoken");
 const getevents = async (req, res) => {
   try {
